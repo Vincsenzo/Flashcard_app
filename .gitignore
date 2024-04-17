@@ -1,0 +1,36 @@
+# macOS system files
+.DS_Store
+
+# Python virtual environment
+venv/
+
+# Django-specific files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs
+*.log
+
+# Local SQLite database file
+db.sqlite3
+
+# Media files
+media/
+
+# Static files
+# staticfiles/
+
+# Environment variables
+.env
+
+# Secret key file
+*.key
+
+# Compiled Python files
+*.pyc
+
+# Pipenv files
+Pipfile
+Pipfile.lock

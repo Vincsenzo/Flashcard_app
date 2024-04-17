@@ -1,0 +1,11 @@
+{% extends "flashcard/base.html" %}
+{% block content %}
+<header>
+    <h1>Flashcard app</h1>
+</header>
+<main>
+    {% for stack in stacks %}
+        <article><a href="{% url "flashcard:flashcard_view" pk=stack.id %}">{{ stack.stack_name }}</a> | {{ stack.creator }}</article>
+    {% endfor %}
+</main>
+{% endblock content %}

@@ -1,0 +1,71 @@
+#article {
+    transition: opacity 0.2s ease;
+    position: relative;
+    padding: 20px;
+    font-size: 20px;
+}
+
+#article.fadeout-right {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform: translateX(50px);
+    opacity: 0;
+}
+
+#article.fadeout-left {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform: translateX(-50px);
+    opacity: 0;
+}
+
+#article.flip {
+    transition: transform 0.5s ease;
+    transform-style: preserve-3d;
+    transform: rotateX(180deg);
+}
+
+#article.flip-transparent {
+    color: transparent;
+}
+
+#article.move-left {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform: translateX(-50px);
+    opacity: 0;
+}
+
+#article.move-back-from-left {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform: translateX(0);
+    opacity: 1;
+}
+
+#article.reset {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform: translateY(-10px);
+    background-color: rgb(62, 47, 29);
+    opacity: 0;
+}
+
+@media (prefers-color-scheme: light) {
+    #article.fadeout-right {
+        background-color: rgb(159, 202, 163);
+    }
+    #article.fadeout-left {
+        background-color: rgb(192, 143, 143);
+    }
+    #article.reset {
+        background-color: rgb(207, 181, 149);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    #article.fadeout-right {
+        background-color: rgb(27, 46, 29);
+    }
+    #article.fadeout-left {
+        background-color: rgb(49, 29, 29);
+    }
+    #article.reset {
+        background-color: rgb(62, 47, 29);
+    }
+}

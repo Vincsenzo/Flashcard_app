@@ -75,6 +75,7 @@ function addNewCard() {
     sendNewCardData(newCardJsonData);
     flashcards.unshift(newCardJsonData);
     renderCards();
+    countCards();
 }
 
 countCards();

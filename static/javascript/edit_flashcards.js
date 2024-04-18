@@ -8,9 +8,11 @@ let unknownCounter = 0;
 
 let markKnowElement = document.getElementById('numberOfKnown');
 let markUnknowElement = document.getElementById('numberOfUnknown');
-let addNewCardButton = document.getElementById('addNewCardButton');
 let knownCardsP = document.getElementById('knownCardsP');
 let unknownCardsP = document.getElementById('unknownCardsP');
+let addNewCardButton = document.getElementById('addNewCardButton');
+let unknownCardsDiv = document.getElementById('unknownCardsDiv');
+let knownCardsDiv = document.getElementById('knownCardsDiv');
 
 const mainElement = document.getElementsByTagName('main')[0];
 
@@ -29,17 +31,51 @@ function countCards(){
     markUnknowElement.innerHTML = unknownCounter;
 }
 
-function renderCards(cards) {
+function renderCards() {
     const knownCards = flashcards.filter(card => {return card.known});
     const unknownCards = flashcards.filter(card => {return !card.known});
+    unknownCardsDiv.innerHTML = '';
+    knownCardsDiv.innerHTML = '';
 
-    knownCardsP.insertAdjacentHTML('beforeend', knownCards.map(card =>`
+    unknownCardsDiv.innerHTML = unknownCards.map(card =>`
         <article> ${card.term} <br><hr> ${card.definition} </article>
-    `).join(''));
-    unknownCardsP.insertAdjacentHTML('beforeend', unknownCards.map(card =>`
+    `).join('');
+    knownCardsDiv.innerHTML = knownCards.map(card =>`
         <article> ${card.term} <br><hr> ${card.definition} </article>
-    `).join(''));
+    `).join('');
+}
+
+// Add new cards:
+let termInput;
+let definitionInput;
+
+function sendNewCardData(jsonData) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', apiUrl, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function(){
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log('Response: ', xhr.responseText);
+        }
+    };
+    xhr.send(JSON.stringify(jsonData));
+}
+
+function addNewCard() {
+    termInput = document.getElementById('termInput');
+    definitionInput = document.getElementById('definitionInput');
+    let newCardJsonData = {
+        'term': termInput.value,
+        'definition': definitionInput.value,
+        'stack': stackId,
+        'known': false,
+    };
+    termInput.value = "";
+    definitionInput.value = "";
+    sendNewCardData(newCardJsonData);
+    flashcards.unshift(newCardJsonData);
+    renderCards();
 }
 
 countCards();
-renderCards(flashcards);
+renderCards();

@@ -4,9 +4,13 @@
 {% include "flashcard/header_nav.html" %}
 <main>
     <a href="{% url "flashcard:flashcards" pk=pk %}"><button>Review Flashcards</button></a>
-    <button id="addNewCardButton">Add new card</button>
+    <button id="addNewCardButton" onclick="addNewCard()">Add new card</button>
+    <article><input id="termInput" type="text" placeholder="term"><hr><input id="definitionInput" type="text" placeholder="definition"></article>
+    
     <p id="knownCardsP" style="color: green;">Known cards:</p>
+    <div id="knownCardsDiv"></div>
     <p id="unknownCardsP" style="color: red;">Unknown cards:</p>
+    <div id="unknownCardsDiv"></div>
 
 </main>
 <script data-stack-id="{{ pk }}" data-cards="{{ json_data }}" data-url="{% url "flashcard:json_request_view" %}" src="{% static "javascript/edit_flashcards.js" %}"></script>

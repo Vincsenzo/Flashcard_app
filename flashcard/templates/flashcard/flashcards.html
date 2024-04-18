@@ -1,14 +1,7 @@
 {% extends "flashcard/base.html" %}
 {% load static %}
 {% block content %}
-<header>
-    <h1>Flashcard app</h1>
-    <nav>
-        <a href="" onclick="listFlashcards(event, 'all')">🗂 All Cards</a>
-        <a href="" onclick="listFlashcards(event, 'know')">🗃 Know <mark id="numberOfKnown">0</mark></a>
-        <a href="" onclick="listFlashcards(event, 'dknow')">🗃 Don't know <mark id="numberOfUnknown">0</mark></a>
-    </nav>
-</header>
+{% include "flashcard/header_nav.html" %}
 <main>
     <article id="article"></article>
     <p>
@@ -22,6 +15,8 @@
         <summary>Keyboard shortcuts</summary>
         <p>Know - "Right Arrow" <br> Still learning - "Left Arrow" <br> Flip Card - "Space" or "Up Arrow"<br> Previous - "P" <br> Reset Cards - "R"</p>
     </details>
+    <h4>Known <mark id="numberOfKnown">0</mark>:</h4>
+    <h4>Don't know <mark id="numberOfUnknown">0</mark>:</h4>
 </main>
-<script data-stack-id="{{ pk }}" data-cards="{{ json_data }}" data-url="{% url "flashcard:json_request_view" %}" src="{% static "javascript/flashcard.js" %}"></script>
+<script data-stack-id="{{ pk }}" data-cards="{{ json_data }}" data-url="{% url "flashcard:json_request_view" %}" src="{% static "javascript/flashcards.js" %}"></script>
 {% endblock content %}

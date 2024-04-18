@@ -1,0 +1,8 @@
+<header>
+    <h1>Flashcard app</h1>
+    <nav>
+        <a href="{% url "flashcard:edit_flashcards" pk=pk %}">🗂 All Cards</a>
+        <a href="{% url "flashcard:edit_flashcards" pk=pk %}">🗃 Know <mark id="numberOfKnown">0</mark></a>
+        <a href="{% url "flashcard:edit_flashcards" pk=pk %}">🗃 Don't know <mark id="numberOfUnknown">0</mark></a>
+    </nav>
+</header>

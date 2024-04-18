@@ -204,6 +204,16 @@ let addNewCardButton;
 let termInput;
 let definitionInput;
 
+function renderCardsUnder(cards) {
+    const knownCards = flashcards.filter(card => {return card.known});
+    const unknownCards = flashcards.filter(card => {return !card.known});
+
+    // this should be finished
+    mainElement.insertAdjacentHTML('beforeend', cards.map(card =>`
+        <article> ${card.term} <br><hr> ${card.definition} </article>
+    `).join(''));
+}
+
 function renderCards(cards) {
     mainElement.innerHTML = `
         <button id="reviewFlashcardsButton">Review Flashcards</button>
@@ -266,3 +276,5 @@ function addNewCard() {
     flashcards.unshift(newCardJsonData);
     listFlashcards(event, 'all');
 }
+
+renderCardsUnder(flashcards)

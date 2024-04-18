@@ -6,7 +6,8 @@ from . import views
 app_name = 'flashcard'
 
 urlpatterns = [
-    path('flashcard/<int:pk>/', views.flashcards, name='flashcard_view'),
-    path('', views.flashcard_list_view, name='flashcard_list_view'),
+    path('', views.stack_list_view, name='stack_list_view'),
+    path('flashcards/<int:pk>/', views.flashcards, name='flashcards'),
+    path('edit-flashcards/<int:pk>/', views.edit_flashcards, name='edit_flashcards'),
     path('json_request_view', csrf_exempt(views.json_request_view), name='json_request_view'),
 ]

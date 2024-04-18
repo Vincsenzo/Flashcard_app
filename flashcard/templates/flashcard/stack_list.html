@@ -5,7 +5,7 @@
 </header>
 <main>
     {% for stack in stacks %}
-        <article><a href="{% url "flashcard:flashcard_view" pk=stack.id %}">{{ stack.stack_name }}</a> | {{ stack.creator }}</article>
+        <article><a href="{% url "flashcard:flashcards" pk=stack.id %}">{{ stack.stack_name }}</a> | {{ stack.creator }}</article>
     {% endfor %}
 </main>
 {% endblock content %}

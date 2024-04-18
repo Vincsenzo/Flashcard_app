@@ -15,8 +15,6 @@
         <summary>Keyboard shortcuts</summary>
         <p>Know - "Right Arrow" <br> Still learning - "Left Arrow" <br> Flip Card - "Space" or "Up Arrow"<br> Previous - "P" <br> Reset Cards - "R"</p>
     </details>
-    <h4>Known <mark id="numberOfKnown">0</mark>:</h4>
-    <h4>Don't know <mark id="numberOfUnknown">0</mark>:</h4>
 </main>
 <script data-stack-id="{{ pk }}" data-cards="{{ json_data }}" data-url="{% url "flashcard:json_request_view" %}" src="{% static "javascript/flashcards.js" %}"></script>
 {% endblock content %}

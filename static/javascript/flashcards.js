@@ -276,5 +276,3 @@ function addNewCard() {
     flashcards.unshift(newCardJsonData);
     listFlashcards(event, 'all');
 }
-
-renderCardsUnder(flashcards)

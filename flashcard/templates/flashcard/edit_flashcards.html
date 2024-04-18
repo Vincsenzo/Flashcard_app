@@ -5,9 +5,9 @@
 <main>
     <a href="{% url "flashcard:flashcards" pk=pk %}"><button>Review Flashcards</button></a>
     <button id="addNewCardButton">Add new card</button>
+    <p id="knownCardsP" style="color: green;">Known cards:</p>
+    <p id="unknownCardsP" style="color: red;">Unknown cards:</p>
 
-    <p>Stack id: {{pk}}</p>
-    <p>Json data: {{json_data}}</p>
 </main>
 <script data-stack-id="{{ pk }}" data-cards="{{ json_data }}" data-url="{% url "flashcard:json_request_view" %}" src="{% static "javascript/edit_flashcards.js" %}"></script>
 {% endblock content %}

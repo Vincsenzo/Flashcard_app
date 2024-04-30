@@ -4,6 +4,7 @@
     <h1>Flashcard app</h1>
 </header>
 <main>
+    <a href="{% url "flashcard:create_new_stack" %}"><button>Creat new stack</button></a>
     {% for stack in stacks %}
         <article><a href="{% url "flashcard:flashcards" pk=stack.id %}">{{ stack.stack_name }}</a> | {{ stack.creator }}</article>
     {% endfor %}

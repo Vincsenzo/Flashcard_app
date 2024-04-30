@@ -40,6 +40,10 @@ def stack_list_view(request):
     return render(request, 'flashcard/stack_list.html', context)
 
 
+def create_new_stack(request):
+    return render(request, 'flashcard/create_new_stack.html')
+
+
 def json_request_view(request):
     if request.method == 'POST':
         data = json.loads(request.body)

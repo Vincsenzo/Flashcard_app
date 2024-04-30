@@ -2,10 +2,8 @@ let flashcardsString = document.currentScript.getAttribute('data-cards');
 let apiUrl = document.currentScript.getAttribute('data-url');
 let stackId = document.currentScript.getAttribute('data-stack-id');
 let flashcards = JSON.parse(flashcardsString);
-
 let knownCounter = 0;
 let unknownCounter = 0;
-
 let markKnowElement = document.getElementById('numberOfKnown');
 let markUnknowElement = document.getElementById('numberOfUnknown');
 let knownCardsP = document.getElementById('knownCardsP');
@@ -13,7 +11,6 @@ let unknownCardsP = document.getElementById('unknownCardsP');
 let addNewCardButton = document.getElementById('addNewCardButton');
 let unknownCardsDiv = document.getElementById('unknownCardsDiv');
 let knownCardsDiv = document.getElementById('knownCardsDiv');
-
 const mainElement = document.getElementsByTagName('main')[0];
 
 // Base functions:
@@ -29,6 +26,8 @@ function countCards(){
     });
     markKnowElement.innerHTML = knownCounter;
     markUnknowElement.innerHTML = unknownCounter;
+    knownCardsP.innerHTML = 'Known cards (' + knownCounter + '):'; 
+    unknownCardsP.innerHTML = 'Unknown cards (' + unknownCounter + '):'; 
 }
 
 function renderCards() {

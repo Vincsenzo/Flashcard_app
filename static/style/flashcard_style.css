@@ -69,3 +69,9 @@
         background-color: rgb(62, 47, 29);
     }
 }
+
+/* On the edit page */
+
+#message {
+    color: red;
+}

@@ -4,6 +4,7 @@ let stackId = document.currentScript.getAttribute('data-stack-id');
 let flashcards = JSON.parse(flashcardsString);
 let knownCounter = 0;
 let unknownCounter = 0;
+let messageDisplayed = false;
 let markKnowElement = document.getElementById('numberOfKnown');
 let markUnknowElement = document.getElementById('numberOfUnknown');
 let knownCardsP = document.getElementById('knownCardsP');
@@ -63,18 +64,34 @@ function sendNewCardData(jsonData) {
 function addNewCard() {
     termInput = document.getElementById('termInput');
     definitionInput = document.getElementById('definitionInput');
-    let newCardJsonData = {
-        'term': termInput.value,
-        'definition': definitionInput.value,
-        'stack': stackId,
-        'known': false,
-    };
-    termInput.value = "";
-    definitionInput.value = "";
-    sendNewCardData(newCardJsonData);
-    flashcards.unshift(newCardJsonData);
-    renderCards();
-    countCards();
+    
+    if (termInput.value.trim() !== "" && definitionInput.value.trim() !== "") {
+        let newCardJsonData = {
+            'term': termInput.value,
+            'definition': definitionInput.value,
+            'stack': stackId,
+            'known': false,
+        };
+        termInput.value = "";
+        definitionInput.value = "";
+        sendNewCardData(newCardJsonData);
+        flashcards.unshift(newCardJsonData);
+        renderCards();
+        countCards();
+
+        messageDisplayed = false;
+        const messageElement = document.getElementById('message');
+        if (messageElement) {messageElement.remove()}
+    }
+    else {
+        if (!messageDisplayed) {
+            const newParagraph = document.createElement('article');
+            newParagraph.setAttribute("id", "message")
+            newParagraph.textContent = 'Fill in the card ☝️';
+            addNewCardButton.parentNode.insertBefore(newParagraph, addNewCardButton);
+            messageDisplayed = true;
+        }
+    }
 }
 
 countCards();

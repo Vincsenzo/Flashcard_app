@@ -1,8 +1,9 @@
 import json
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
 from .models import Flashcard, Stack
+from .forms import StackForm
 
 
 def falshcard_serializer(stack_id):
@@ -41,7 +42,16 @@ def stack_list_view(request):
 
 
 def create_new_stack(request):
-    return render(request, 'flashcard/create_new_stack.html')
+    if request.method == 'POST':
+        form = StackForm(request.POST)
+        if form.is_valid:
+            form.save()
+            return redirect('flashcard:stack_list_view')
+    else:
+        form = StackForm()
+    
+    context = {'form': form}
+    return render(request, 'flashcard/create_new_stack.html', context)
 
 
 def json_request_view(request):

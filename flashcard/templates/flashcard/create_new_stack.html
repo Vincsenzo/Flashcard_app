@@ -3,9 +3,9 @@
     <h1>Flashcard app</h1>
 </header>
 <main>
-    <input id="stackName" type="text" placeholder="Stack name"><hr>
-
-    <button id="addNewCardButton" onclick="addNewCard()">Add new card</button>
-    <article><input id="termInput" type="text" placeholder="term"><hr><input id="definitionInput" type="text" placeholder="definition"></article>
-    <button>Create new stack</button>
+    <form method="post">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit">Create new stack</button>
+    </form>
 </main>

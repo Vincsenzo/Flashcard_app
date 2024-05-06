@@ -17,3 +17,12 @@ class Flashcard(models.Model):
 
     def __str__(self):
         return f'{self.term} - {self.definition}'
+    
+
+class UserFlaschcardRelationship(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    flashcard_id = models.ForeignKey(Flashcard, on_delete=models.CASCADE)
+    is_known = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.user_id.username} | {self.flashcard_id.term} | {self.is_known}'

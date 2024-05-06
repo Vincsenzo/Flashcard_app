@@ -13,5 +13,5 @@
     <div id="knownCardsDiv"></div>
 
 </main>
-<script data-stack-id="{{ pk }}" data-cards="{{ json_data }}" data-url="{% url "flashcard:json_request_view" %}" src="{% static "javascript/edit_flashcards.js" %}"></script>
+<script data-stack-id="{{ pk }}" data-cards="{{ json_data }}" data-url="{% url "flashcard:json_new_card" %}" src="{% static "javascript/edit_flashcards.js" %}"></script>
 {% endblock content %}

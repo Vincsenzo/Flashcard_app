@@ -1,6 +1,9 @@
 {% include "flashcard/base.html" %}
 <header>
     <h1>Flashcard app</h1>
+    <nav>
+        <a href="{% url "flashcard:stack_list_view" %}">🔙 Home</a>
+    </nav>
 </header>
 <main>
     <form method="post">

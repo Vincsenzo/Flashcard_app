@@ -1,10 +1,10 @@
-from django import forms
+from django.forms import ModelForm
 
 from .models import Stack
 
 
-class StackForm(forms.ModelForm):
+class StackForm(ModelForm):
 
     class Meta:
         model = Stack
-        fields = '__all__'
+        fields = ['stack_name']

@@ -1,7 +1,7 @@
 import json
-import itertools
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 from .models import Flashcard, Stack, UserFlaschcardRelationship
 from .forms import StackForm
@@ -23,29 +23,6 @@ def falshcard_serializer(stack_id, request):
             'definition': card['definition'],
             'known': known
         })
-
-    # json_data = []
-    # for (entry, entry2) in itertools.zip_longest(serialized_data, serialized_data2):
-    #     entry2 = {'flashcard_id__id': 0} if entry2 is None else entry2
-    #     # print(entry, entry2)
-    #     custom_entry = {
-    #         'term': entry['term'],
-    #         'definition': entry['definition'],
-    #         "known":  entry2['is_known'] if entry['id'] == entry2['flashcard_id__id'] else False,
-    #     }
-    #     json_data.append(custom_entry)
-
-
-    # json_data = []
-    # for entry in serialized_data:
-    #     for entry2 in serialized_data2:
-    #         print(entry, entry2)
-    #         custom_entry = {
-    #             'term': entry['term'],
-    #             'definition': entry['definition'],
-    #             "known":  entry2['is_known'] if entry['id'] == entry2['flashcard_id__id'] and not None else pass,
-    #         }
-    #         json_data.append(custom_entry)
 
     json_data = json.dumps(transformed_flashcards)
     return json_data
@@ -70,6 +47,7 @@ def stack_list_view(request):
     return render(request, 'flashcard/stack_list.html', context)
 
 
+@login_required(login_url='flashcard:stack_list_view')
 def create_new_stack(request):
     if request.method == 'POST':
         form = StackForm(request.POST)

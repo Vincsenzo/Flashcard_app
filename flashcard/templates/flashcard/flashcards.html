@@ -5,19 +5,16 @@
 <main>
     <article id="article"></article>
     <p>
-        <button id="previousButton">Previous</button>
-        <button id="flipButton">Flip Card</button>
         <button id="learningButton">❌ Still learning</button>
+        <button id="flipButton">🔄 Flip Card</button>
         <button id="knowButton">✅ Know</button>
-        <button id="resetButton">Reset Cards</button>
+        <button id="previousButton">⏪ Previous</button>
+        <button id="resetButton">🔁 Reset Cards</button>
     </p>
     <details>
         <summary>Keyboard shortcuts</summary>
         <p>Know - "Right Arrow" <br> Still learning - "Left Arrow" <br> Flip Card - "Space" or "Up Arrow"<br> Previous - "P" <br> Reset Cards - "R"</p>
     </details>
-    {{user}}
-    </br>
-    {{ json_data }}
 </main>
 <script data-stack-id="{{ pk }}" data-cards="{{ json_data }}" data-url="{% url "flashcard:json_new_card" %}" src="{% static "javascript/flashcards.js" %}"></script>
 {% endblock content %}

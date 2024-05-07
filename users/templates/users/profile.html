@@ -1,0 +1,5 @@
+{% extends "flashcard/base.html" %}
+{% block content %}
+{% include "flashcard/only_header.html" %}
+<a href="{% url "users:logout" %}">Log out</a>
+{% endblock content %}

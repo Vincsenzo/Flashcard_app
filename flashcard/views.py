@@ -9,26 +9,45 @@ from .forms import StackForm
 
 def falshcard_serializer(stack_id, request):
     user = request.user.id
-
-    # TODO: make the cardes pared by id!
     queryset = Flashcard.objects.filter(stack=stack_id).order_by('id')
     queryset2 = UserFlaschcardRelationship.objects.filter(flashcard_id__stack=stack_id, user_id=user).order_by('flashcard_id__id')
-    serialized_data = list(queryset.values('term', 'definition'))
-    serialized_data2 = list(queryset2.values('is_known'))
+    flashcards = list(queryset.values('term', 'definition', 'id'))
+    flashcard_ids = list(queryset2.values('is_known', 'flashcard_id__id'))
+    known_flashcard_ids = {card['flashcard_id__id'] for card in flashcard_ids if card['is_known']}
 
-    print(serialized_data2)
+    transformed_flashcards = []
+    for card in flashcards:
+        known = card['id'] in known_flashcard_ids
+        transformed_flashcards.append({
+            'term': card['term'],
+            'definition': card['definition'],
+            'known': known
+        })
 
-    json_data = []
-    for (entry, entry2) in itertools.zip_longest(serialized_data, serialized_data2):
-        print(entry, entry2)
-        custom_entry = {
-            'term': entry['term'],
-            'definition': entry['definition'],
-            "known":  entry2['is_known'] if entry2 else False,
-        }
-        json_data.append(custom_entry)
+    # json_data = []
+    # for (entry, entry2) in itertools.zip_longest(serialized_data, serialized_data2):
+    #     entry2 = {'flashcard_id__id': 0} if entry2 is None else entry2
+    #     # print(entry, entry2)
+    #     custom_entry = {
+    #         'term': entry['term'],
+    #         'definition': entry['definition'],
+    #         "known":  entry2['is_known'] if entry['id'] == entry2['flashcard_id__id'] else False,
+    #     }
+    #     json_data.append(custom_entry)
 
-    json_data = json.dumps(json_data)
+
+    # json_data = []
+    # for entry in serialized_data:
+    #     for entry2 in serialized_data2:
+    #         print(entry, entry2)
+    #         custom_entry = {
+    #             'term': entry['term'],
+    #             'definition': entry['definition'],
+    #             "known":  entry2['is_known'] if entry['id'] == entry2['flashcard_id__id'] and not None else pass,
+    #         }
+    #         json_data.append(custom_entry)
+
+    json_data = json.dumps(transformed_flashcards)
     return json_data
 
 

@@ -49,9 +49,9 @@ function renderCards() {
 let termInput;
 let definitionInput;
 
-function sendNewCardData(jsonData) {
+function sendCardData(jsonData, apiURL) {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', apiUrl, true);
+    xhr.open('POST', apiURL, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function(){
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -74,7 +74,7 @@ function addNewCard() {
         };
         termInput.value = "";
         definitionInput.value = "";
-        sendNewCardData(newCardJsonData);
+        sendCardData(newCardJsonData, apiUrl);
         flashcards.unshift(newCardJsonData);
         renderCards();
         countCards();

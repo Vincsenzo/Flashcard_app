@@ -1,0 +1,20 @@
+{% extends "flashcard/base.html" %}
+{% block content %}
+{% include "flashcard/only_header.html" %}
+
+<main>
+    <p>Separate term and definition with "," (comma), separate new flashcards with ";" (semicolon)</p>
+    <blockquote>Example: hello, hola; good night, buenas noches; dog, perro</blockquote>
+
+    {% for message in messages %}
+        <p class="notice">Error: {{message}}</p>
+    {% endfor %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit">Add new cards to stack</button>
+    </form>
+</main>
+
+{% endblock content %}

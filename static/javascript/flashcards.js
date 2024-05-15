@@ -1,4 +1,4 @@
-// import sendNewCardData from "edit_flashcards";
+// import sendCardData from "edit_flashcards";
 
 let flashcardsString = document.currentScript.getAttribute('data-cards');
 let apiUrl = document.currentScript.getAttribute('data-url');

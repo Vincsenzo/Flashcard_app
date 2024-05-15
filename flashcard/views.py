@@ -2,36 +2,16 @@ import json
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
-from .models import Flashcard, Stack, UserFlaschcardRelationship
-from .forms import StackForm
-
-
-def falshcard_serializer(stack_id, request):
-    user = request.user.id
-    queryset = Flashcard.objects.filter(stack=stack_id).order_by('id')
-    queryset2 = UserFlaschcardRelationship.objects.filter(flashcard_id__stack=stack_id, user_id=user).order_by('flashcard_id__id')
-    flashcards = list(queryset.values('term', 'definition', 'id'))
-    flashcard_ids = list(queryset2.values('is_known', 'flashcard_id__id'))
-    known_flashcard_ids = {card['flashcard_id__id'] for card in flashcard_ids if card['is_known']}
-
-    transformed_flashcards = []
-    for card in flashcards:
-        known = card['id'] in known_flashcard_ids
-        transformed_flashcards.append({
-            'term': card['term'],
-            'definition': card['definition'],
-            'known': known
-        })
-
-    json_data = json.dumps(transformed_flashcards)
-    return json_data
+from .models import Flashcard, Stack
+from .forms import StackForm, NewCardsForm
+from .serializers import falshcard_serializer
 
 
 def flashcards(request, pk):
-    user = request.user
     json_data = falshcard_serializer(pk, request)
-    context = {'json_data': json_data, 'pk': pk, 'user': user}
+    context = {'json_data': json_data, 'pk': pk}
     return render(request, 'flashcard/flashcards.html', context)
 
 
@@ -47,7 +27,7 @@ def stack_list_view(request):
     return render(request, 'flashcard/stack_list.html', context)
 
 
-@login_required(login_url='flashcard:stack_list_view')
+@login_required(login_url='users:login')
 def create_new_stack(request):
     if request.method == 'POST':
         form = StackForm(request.POST)
@@ -60,6 +40,29 @@ def create_new_stack(request):
     
     context = {'form': form}
     return render(request, 'flashcard/create_new_stack.html', context)
+
+
+def add_new_cards(request, stack_id):
+    if request.method == 'POST':
+        form = NewCardsForm(request.POST)
+        if form.is_valid:
+            data = form.data['new_cards']
+            stack_instance = Stack.objects.get(pk=stack_id)
+
+            for d in data.split(";"):
+                try:
+                    term, definition = map(str.strip, d.split(","))
+                    Flashcard.objects.create(term=term, definition=definition, stack=stack_instance)
+                except ValueError as e:
+                    messages.error(request, e)
+                    return redirect('flashcard:add_new_cards', stack_id=stack_id)
+
+            return redirect('flashcard:edit_flashcards', pk=stack_id)
+    else:
+        form = NewCardsForm()
+    
+    context = {'form': form}
+    return render(request, 'flashcard/add_new_cards.html', context)
 
 
 def json_new_card(request):

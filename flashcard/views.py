@@ -51,7 +51,7 @@ def add_new_cards(request, stack_id):
 
             for d in data.split(";"):
                 try:
-                    term, definition = map(str.strip, d.split(","))
+                    term, definition = map(str.strip, d.split("&"))
                     Flashcard.objects.create(term=term, definition=definition, stack=stack_instance)
                 except ValueError as e:
                     messages.error(request, e)

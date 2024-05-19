@@ -16,7 +16,7 @@ class Flashcard(models.Model):
     definition = models.CharField(max_length=200)
 
     def __str__(self):
-        return f'{self.term} - {self.definition}'
+        return f'{self.id} | {self.term} - {self.definition}'
     
 
 class UserFlaschcardRelationship(models.Model):

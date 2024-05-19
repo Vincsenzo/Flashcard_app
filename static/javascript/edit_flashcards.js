@@ -49,9 +49,9 @@ function renderCards() {
 let termInput;
 let definitionInput;
 
-function sendCardData(jsonData, apiURL) {
+function sendCardData(jsonData, apiURL, method = 'POST') {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', apiURL, true);
+    xhr.open(method, apiURL, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function(){
         if (xhr.readyState === 4 && xhr.status === 200) {

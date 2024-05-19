@@ -1,9 +1,8 @@
-// import sendCardData from "edit_flashcards";
-
 let flashcardsString = document.currentScript.getAttribute('data-cards');
 let apiUrl = document.currentScript.getAttribute('data-url');
 let stackId = document.currentScript.getAttribute('data-stack-id');
 let flashcards = JSON.parse(flashcardsString);
+let unknownCards = flashcards.filter(item => !item.known);
 let index = 0;
 let flipped = false;
 let knownCounter = 0;
@@ -17,7 +16,10 @@ let flipButton = document.getElementById('flipButton');
 let previousButton = document.getElementById('previousButton');
 let resetButton = document.getElementById('resetButton');
 
-articleElement.innerHTML = flashcards[index].term;
+articleElement.innerHTML = unknownCards[index] ? unknownCards[index].term : null;
+if (!unknownCards[index] || unknownCards[index].term !== flashcards[index].term) { // hack so it is always diplaying the proper card
+    switchToNext();
+}
 
 // Base functions:
 function countCards(){
@@ -79,12 +81,22 @@ function flipCard(){
 
 function changeToKnow(){
     flashcards[index].known = true;
+    let jsonData = {
+        'card_id': flashcards[index].id,
+        'known': true
+    };
+    sendCardData(jsonData, apiUrl, 'PUT');
     countCards();
     switchToNext();
 }
 
 function changeToDontKnow(){
     flashcards[index].known = false;
+    let jsonData = {
+        'card_id': flashcards[index].id,
+        'known': false
+    };
+    sendCardData(jsonData, apiUrl, 'PUT');
     countCards();
     switchToNext();
 }
@@ -176,6 +188,18 @@ document.body.onkeyup = function(event) {
         event.preventDefault();
         resetCardsAnimation();
     }
+}
+
+function sendCardData(jsonData, apiURL, method = 'POST') {
+    var xhr = new XMLHttpRequest();
+    xhr.open(method, apiURL, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function(){
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log('Response: ', xhr.responseText);
+        }
+    };
+    xhr.send(JSON.stringify(jsonData));
 }
 
 countCards();

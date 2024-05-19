@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .models import Flashcard, Stack
+from .models import Flashcard, Stack, UserFlaschcardRelationship
 from .forms import StackForm, NewCardsForm
 from .serializers import falshcard_serializer
 
@@ -70,6 +70,14 @@ def json_new_card(request):
         data = json.loads(request.body)
         stack_instance = Stack.objects.get(pk=data['stack'])
         Flashcard.objects.create(term=data['term'], definition=data['definition'], stack=stack_instance)
+        return JsonResponse({'message': 'Data received successfully'}, status=200)
+    elif request.method == 'PUT':
+        data = json.loads(request.body)
+        card_id = data['card_id']
+        known = data['known']
+        user = request.user
+        card_instance = Flashcard.objects.get(pk=card_id)
+        UserFlaschcardRelationship.objects.update_or_create(user_id=user, flashcard_id=card_instance, defaults={'is_known': known})
         return JsonResponse({'message': 'Data received successfully'}, status=200)
     else:
         return JsonResponse({'message': 'Invalid request method'}, status=400)

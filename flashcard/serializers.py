@@ -20,8 +20,6 @@ def falshcard_serializer(stack_id, request):
             'known': known,
             'id': card['id'],
         })
-    
-    # TODO: make the changes to js file so it sends json data to track known cards with the help of (card) 'id' field
 
     json_data = json.dumps(transformed_flashcards)
     return json_data

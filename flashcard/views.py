@@ -1,5 +1,5 @@
 import json
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -69,20 +69,30 @@ def json_new_card(request):
     data = json.loads(request.body)
 
     if request.method == 'POST':
-        stack_instance = Stack.objects.get(pk=data['stack'])
+        # stack_instance = Stack.objects.get(pk=data['stack'])
+        stack_instance = get_object_or_404(Stack, pk=data['stack'])
         Flashcard.objects.create(term=data['term'], definition=data['definition'], stack=stack_instance)
         return JsonResponse({'message': 'Data received successfully'}, status=200)
+    
     elif request.method == 'PUT':
         stack_id = data.get('stack_id')
         card_id = data.get('card_id')
         user = request.user
+
         if stack_id is not None:
-            cards_to_reset = UserFlaschcardRelationship.objects.filter(user_id=user, flashcard_id__stack=stack_id)
+            # cards_to_reset = UserFlaschcardRelationship.objects.filter(user_id=user, flashcard_id__stack=stack_id)
+            cards_to_reset = get_list_or_404(UserFlaschcardRelationship, user_id=user, flashcard_id__stack=stack_id)
             for card in cards_to_reset:
                 card.reset_card()
+
         else:
-            card_instance = Flashcard.objects.get(pk=card_id)
-            UserFlaschcardRelationship.objects.get(user_id=user, flashcard_id=card_instance).change_known()
+            # card_instance = Flashcard.objects.get(pk=card_id)
+            # UserFlaschcardRelationship.objects.get(user_id=user, flashcard_id=card_instance).change_known()
+            card_instance = get_object_or_404(Flashcard, pk=card_id)
+            user_flashcard_relationship = get_object_or_404(UserFlaschcardRelationship, user_id=user, flashcard_id=card_instance)
+            user_flashcard_relationship.change_known()
+
         return JsonResponse({'message': 'Data received successfully'}, status=200)
+
     else:
         return JsonResponse({'message': 'Invalid request method'}, status=400)

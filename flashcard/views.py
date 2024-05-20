@@ -69,7 +69,6 @@ def json_new_card(request):
     data = json.loads(request.body)
 
     if request.method == 'POST':
-        # stack_instance = Stack.objects.get(pk=data['stack'])
         stack_instance = get_object_or_404(Stack, pk=data['stack'])
         Flashcard.objects.create(term=data['term'], definition=data['definition'], stack=stack_instance)
         return JsonResponse({'message': 'Data received successfully'}, status=200)
@@ -77,20 +76,17 @@ def json_new_card(request):
     elif request.method == 'PUT':
         stack_id = data.get('stack_id')
         card_id = data.get('card_id')
+        known = data.get('known')
         user = request.user
 
         if stack_id is not None:
-            # cards_to_reset = UserFlaschcardRelationship.objects.filter(user_id=user, flashcard_id__stack=stack_id)
             cards_to_reset = get_list_or_404(UserFlaschcardRelationship, user_id=user, flashcard_id__stack=stack_id)
             for card in cards_to_reset:
                 card.reset_card()
 
         else:
-            # card_instance = Flashcard.objects.get(pk=card_id)
-            # UserFlaschcardRelationship.objects.get(user_id=user, flashcard_id=card_instance).change_known()
             card_instance = get_object_or_404(Flashcard, pk=card_id)
-            user_flashcard_relationship = get_object_or_404(UserFlaschcardRelationship, user_id=user, flashcard_id=card_instance)
-            user_flashcard_relationship.change_known()
+            UserFlaschcardRelationship.change_known_or_create(user=user, card_instance=card_instance, true_or_false=known)
 
         return JsonResponse({'message': 'Data received successfully'}, status=200)
 

@@ -81,7 +81,7 @@ function flipCard(){
 
 function changeToKnow(){
     flashcards[index].known = true;
-    let jsonData = {'card_id': flashcards[index].id};
+    let jsonData = {'card_id': flashcards[index].id, 'known': true};
     sendCardData(jsonData, apiUrl, 'PUT');
     countCards();
     switchToNext();
@@ -89,7 +89,7 @@ function changeToKnow(){
 
 function changeToDontKnow(){
     flashcards[index].known = false;
-    let jsonData = {'card_id': flashcards[index].id};
+    let jsonData = {'card_id': flashcards[index].id, 'known': false};
     sendCardData(jsonData, apiUrl, 'PUT');
     countCards();
     switchToNext();

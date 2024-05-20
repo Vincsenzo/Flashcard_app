@@ -9,15 +9,15 @@ from .forms import StackForm, NewCardsForm
 from .serializers import falshcard_serializer
 
 
-def flashcards(request, pk):
-    json_data = falshcard_serializer(pk, request)
-    context = {'json_data': json_data, 'pk': pk}
+def flashcards(request, stack_id):
+    json_data = falshcard_serializer(stack_id, request)
+    context = {'json_data': json_data, 'stack_id': stack_id}
     return render(request, 'flashcard/flashcards.html', context)
 
 
-def edit_flashcards(request, pk):
-    json_data = falshcard_serializer(pk, request)
-    context = {'json_data': json_data, 'pk': pk}
+def edit_flashcards(request, stack_id):
+    json_data = falshcard_serializer(stack_id, request)
+    context = {'json_data': json_data, 'stack_id': stack_id}
     return render(request, 'flashcard/edit_flashcards.html', context)
 
 
@@ -57,7 +57,7 @@ def add_new_cards(request, stack_id):
                     messages.error(request, e)
                     return redirect('flashcard:add_new_cards', stack_id=stack_id)
 
-            return redirect('flashcard:edit_flashcards', pk=stack_id)
+            return redirect('flashcard:edit_flashcards', stack_id=stack_id)
     else:
         form = NewCardsForm()
     
@@ -65,7 +65,7 @@ def add_new_cards(request, stack_id):
     return render(request, 'flashcard/add_new_cards.html', context)
 
 
-def json_new_card(request):
+def json_reciever(request):
     data = json.loads(request.body)
 
     if request.method == 'POST':

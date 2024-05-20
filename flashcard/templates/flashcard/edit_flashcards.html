@@ -3,10 +3,10 @@
 {% block content %}
 {% include "flashcard/header_nav.html" %}
 <main>
-    <a href="{% url "flashcard:flashcards" pk=pk %}"><button>Review Flashcards</button></a>
+    <a href="{% url "flashcard:flashcards" stack_id=stack_id %}"><button>Review Flashcards</button></a>
     <article><input id="termInput" type="text" placeholder="term"><hr><input id="definitionInput" type="text" placeholder="definition"></article>
     <button id="addNewCardButton" onclick="addNewCard()">Add new card</button>
-    <a href="{% url "flashcard:add_new_cards" stack_id=pk%}"><button>Import cards</button></a>
+    <a href="{% url "flashcard:add_new_cards" stack_id=stack_id%}"><button>Import cards</button></a>
     
     <p id="unknownCardsP" style="color: red;">Unknown cards (0):</p>
     <div id="unknownCardsDiv"></div>
@@ -14,5 +14,5 @@
     <div id="knownCardsDiv"></div>
 
 </main>
-<script data-stack-id="{{ pk }}" data-cards="{{ json_data }}" data-url="{% url "flashcard:json_new_card" %}" src="{% static "javascript/edit_flashcards.js" %}"></script>
+<script data-stack-id="{{ stack_id }}" data-cards="{{ json_data }}" data-url="{% url "flashcard:json_reciever" %}" src="{% static "javascript/edit_flashcards.js" %}"></script>
 {% endblock content %}

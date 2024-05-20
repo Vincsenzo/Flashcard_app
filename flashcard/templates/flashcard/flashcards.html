@@ -16,5 +16,5 @@
         <p>Know - "Right Arrow" <br> Still learning - "Left Arrow" <br> Flip Card - "Space" or "Up Arrow"<br> Previous - "P" <br> Reset Cards - "R"</p>
     </details>
 </main>
-<script data-stack-id="{{ pk }}" data-cards="{{ json_data }}" data-url="{% url "flashcard:json_new_card" %}" src="{% static "javascript/flashcards.js" %}"></script>
+<script data-stack-id="{{ stack_id }}" data-cards="{{ json_data }}" data-url="{% url "flashcard:json_reciever" %}" src="{% static "javascript/flashcards.js" %}"></script>
 {% endblock content %}

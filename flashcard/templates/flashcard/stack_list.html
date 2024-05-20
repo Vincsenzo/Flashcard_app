@@ -6,7 +6,7 @@
 <main>
     <a href="{% url "flashcard:create_new_stack" %}"><button>Creat new stack</button></a>
     {% for stack in stacks %}
-        <article><a href="{% url "flashcard:flashcards" pk=stack.id %}">{{ stack.stack_name }}</a> | {{ stack.creator }}</article>
+        <article><a href="{% url "flashcard:flashcards" stack_id=stack.id %}">{{ stack.stack_name }}</a> | {{ stack.creator }}</article>
     {% endfor %}
 </main>
 {% endblock content %}

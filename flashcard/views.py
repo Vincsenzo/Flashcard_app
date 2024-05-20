@@ -66,17 +66,23 @@ def add_new_cards(request, stack_id):
 
 
 def json_new_card(request):
+    data = json.loads(request.body)
+
     if request.method == 'POST':
-        data = json.loads(request.body)
         stack_instance = Stack.objects.get(pk=data['stack'])
         Flashcard.objects.create(term=data['term'], definition=data['definition'], stack=stack_instance)
         return JsonResponse({'message': 'Data received successfully'}, status=200)
     elif request.method == 'PUT':
-        data = json.loads(request.body)
-        card_id = data['card_id']
+        stack_id = data.get('stack_id')
+        card_id = data.get('card_id')
         user = request.user
-        card_instance = Flashcard.objects.get(pk=card_id)
-        UserFlaschcardRelationship.objects.get(user_id=user, flashcard_id=card_instance).change_known()
+        if stack_id is not None:
+            cards_to_reset = UserFlaschcardRelationship.objects.filter(user_id=user, flashcard_id__stack=stack_id)
+            for card in cards_to_reset:
+                card.reset_card()
+        else:
+            card_instance = Flashcard.objects.get(pk=card_id)
+            UserFlaschcardRelationship.objects.get(user_id=user, flashcard_id=card_instance).change_known()
         return JsonResponse({'message': 'Data received successfully'}, status=200)
     else:
         return JsonResponse({'message': 'Invalid request method'}, status=400)

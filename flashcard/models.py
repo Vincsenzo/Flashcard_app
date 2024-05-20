@@ -6,6 +6,12 @@ class Stack(models.Model):
     stack_name = models.CharField(max_length=50)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
 
+
+    # def reset_stack(self):
+    #     cards = Flashcard.objects.filter(stack=self) #TODO: mak this work
+    #     for card in cards:
+    #         card.
+
     def __str__(self):
         return self.stack_name
 
@@ -27,6 +33,11 @@ class UserFlaschcardRelationship(models.Model):
 
     def change_known(self):
         self.is_known = not self.is_known
+        self.save()
+
+    
+    def reset_card(self):
+        self.is_known = False
         self.save()
 
 

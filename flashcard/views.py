@@ -22,7 +22,7 @@ def edit_flashcards(request, pk):
 
 
 def stack_list_view(request):
-    stacks = Stack.objects.all()
+    stacks = Stack.objects.all().order_by('-id')
     context = {'stacks': stacks}
     return render(request, 'flashcard/stack_list.html', context)
 
@@ -74,10 +74,9 @@ def json_new_card(request):
     elif request.method == 'PUT':
         data = json.loads(request.body)
         card_id = data['card_id']
-        known = data['known']
         user = request.user
         card_instance = Flashcard.objects.get(pk=card_id)
-        UserFlaschcardRelationship.objects.update_or_create(user_id=user, flashcard_id=card_instance, defaults={'is_known': known})
+        UserFlaschcardRelationship.objects.get(user_id=user, flashcard_id=card_instance).change_known()
         return JsonResponse({'message': 'Data received successfully'}, status=200)
     else:
         return JsonResponse({'message': 'Invalid request method'}, status=400)

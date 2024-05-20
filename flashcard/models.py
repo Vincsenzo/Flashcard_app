@@ -24,5 +24,11 @@ class UserFlaschcardRelationship(models.Model):
     flashcard_id = models.ForeignKey(Flashcard, on_delete=models.CASCADE)
     is_known = models.BooleanField(default=False)
 
+
+    def change_known(self):
+        self.is_known = not self.is_known
+        self.save()
+
+
     def __str__(self):
         return f'{self.user_id.username} | {self.flashcard_id.term} | {self.is_known}'

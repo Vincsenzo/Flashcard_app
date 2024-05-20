@@ -56,7 +56,7 @@ function switchToNext(){
     }
 }
 
-function switchToPrevious(){
+function switchToPrevious(){ // TODO: make thos work
     flipped = false;
     if (index != 0){
         index -= 1;
@@ -81,10 +81,7 @@ function flipCard(){
 
 function changeToKnow(){
     flashcards[index].known = true;
-    let jsonData = {
-        'card_id': flashcards[index].id,
-        'known': true
-    };
+    let jsonData = {'card_id': flashcards[index].id};
     sendCardData(jsonData, apiUrl, 'PUT');
     countCards();
     switchToNext();
@@ -92,10 +89,7 @@ function changeToKnow(){
 
 function changeToDontKnow(){
     flashcards[index].known = false;
-    let jsonData = {
-        'card_id': flashcards[index].id,
-        'known': false
-    };
+    let jsonData = {'card_id': flashcards[index].id};
     sendCardData(jsonData, apiUrl, 'PUT');
     countCards();
     switchToNext();
@@ -105,6 +99,8 @@ function resetCards(){
     flashcards.forEach(card =>{
         card.known = false;
     });
+    let jsonData = {'stack_id': stackId};
+    sendCardData(jsonData, apiUrl, 'PUT');
     countCards();
     index = 0;
     articleElement.innerHTML = flashcards[index].term;

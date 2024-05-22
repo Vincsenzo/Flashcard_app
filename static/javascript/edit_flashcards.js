@@ -25,8 +25,8 @@ function countCards(){
             unknownCounter++;
         }
     });
-    markKnowElement.innerHTML = knownCounter;
-    markUnknowElement.innerHTML = unknownCounter;
+    // markKnowElement.innerHTML = knownCounter;
+    // markUnknowElement.innerHTML = unknownCounter;
     knownCardsP.innerHTML = 'Known cards (' + knownCounter + '):'; 
     unknownCardsP.innerHTML = 'Unknown cards (' + unknownCounter + '):'; 
 }
@@ -38,10 +38,10 @@ function renderCards() {
     knownCardsDiv.innerHTML = '';
 
     unknownCardsDiv.innerHTML = unknownCards.map(card =>`
-        <article> ${card.term} <br><hr> ${card.definition} </article>
+        <div class="bg-white dark:bg-slate-700 mt-2 mb-4 rounded-lg py-5 px-8 text-left font-medium"> ${card.term} <br> <br><hr> <br> ${card.definition} </div>
     `).join('');
     knownCardsDiv.innerHTML = knownCards.map(card =>`
-        <article> ${card.term} <br><hr> ${card.definition} </article>
+        <div class="bg-white dark:bg-slate-700 mt-2 mb-4 rounded-lg py-5 px-8 text-left font-medium"> ${card.term} <br> <br><hr> <br> ${card.definition} </div>
     `).join('');
 }
 

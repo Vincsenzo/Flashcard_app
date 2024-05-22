@@ -9,15 +9,18 @@ from .forms import StackForm, NewCardsForm
 from .serializers import falshcard_serializer
 
 
+@login_required(login_url='users:login')
 def flashcards(request, stack_id):
     json_data = falshcard_serializer(stack_id, request)
     context = {'json_data': json_data, 'stack_id': stack_id}
     return render(request, 'flashcard/flashcards.html', context)
 
 
+@login_required(login_url='users:login')
 def edit_flashcards(request, stack_id):
     json_data = falshcard_serializer(stack_id, request)
-    context = {'json_data': json_data, 'stack_id': stack_id}
+    stack = Stack.objects.get(pk=stack_id)
+    context = {'json_data': json_data, 'stack_id': stack_id, 'stack': stack}
     return render(request, 'flashcard/edit_flashcards.html', context)
 
 
@@ -42,6 +45,7 @@ def create_new_stack(request):
     return render(request, 'flashcard/create_new_stack.html', context)
 
 
+@login_required(login_url='users:login')
 def add_new_cards(request, stack_id):
     if request.method == 'POST':
         form = NewCardsForm(request.POST)

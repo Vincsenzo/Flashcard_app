@@ -1,14 +1,15 @@
-{% include "flashcard/base.html" %}
-<header>
-    <h1>Flashcard app</h1>
-    <nav>
-        <a href="{% url "flashcard:stack_list_view" %}">🔙 Home</a>
-    </nav>
-</header>
-<main>
-    <form method="post">
+{% extends "flashcard/tw_base.html" %}
+{% block content %}
+
+<div class="min-h-screen text-black dark:text-white flex flex-col place-items-center" >
+    <form method="post" class="flex flex-col bg-white dark:bg-slate-700 w-1/2 min-w-96 m-4 p-4 rounded-lg">
+        <div class="mb-3 text-xl font-bold">Create new stack:</div>
         {% csrf_token %}
-        {{form}}
-        <button type="submit">Create new stack</button>
+        {% for field in form %}
+            <input id="{{ field.id_for_label}}" type="text" name="{{ field.html_name }}" maxlength="{{ field.field.max_length }}" class="bg-white dark:bg-slate-700 border-2 border-solid border-gray-300 rounded-lg py-1 px-2 focus:outline-none text-xl" placeholder="Stack name">
+        {% endfor %}
+        <button type="submit" class="bg-blue-600 rounded-full m-4 py-2 px-5 text-center text-white font-medium hover:bg-blue-500">Create</button>
     </form>
-</main>
+</div>
+
+{% endblock content %}

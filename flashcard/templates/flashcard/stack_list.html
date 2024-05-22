@@ -1,6 +1,6 @@
 {% extends "flashcard/tw_base.html" %}
 {% block content %}
-<div class="flex flex-col mt-4 place-items-center dark:text-white">
+<div class="flex flex-col mt-4 place-items-center dark:text-white min-h-screen">
     <a href="{% url "flashcard:create_new_stack" %}" class="bg-blue-600 rounded-full m-2 py-2 px-5 text-center text-white font-medium hover:bg-blue-500">+ Create new stack</a>
     {% for stack in stacks %}
         <a href="{% url "flashcard:edit_flashcards" stack_id=stack.id %}" class="bg-white dark:bg-slate-700 dark:hover:bg-slate-600 w-1/2 min-w-96 m-2 rounded-lg py-5 px-8 text-left font-medium hover:shadow ">{{ stack.stack_name }} | {{ stack.creator }}</a>

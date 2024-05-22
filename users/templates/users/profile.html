@@ -1,5 +1,8 @@
-{% extends "flashcard/base.html" %}
+{% extends "flashcard/tw_base.html" %}
 {% block content %}
-{% include "flashcard/only_header.html" %}
-<a href="{% url "users:logout" %}">Log out</a>
+
+<div class="min-h-screen text-black dark:text-white flex flex-col place-items-center" >
+    <a href="{% url "users:logout" %}" class="bg-red-600 rounded-full m-4 py-2 px-5 text-center text-white font-medium hover:bg-red-500">Log out</a>
+</div>
+
 {% endblock content %}

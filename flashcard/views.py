@@ -25,9 +25,17 @@ def edit_flashcards(request, stack_id):
 
 
 def stack_list_view(request):
-    stacks = Stack.objects.all().order_by('-id')
+    stacks = Stack.objects.all().order_by('-created_at')
     context = {'stacks': stacks}
     return render(request, 'flashcard/stack_list.html', context)
+
+
+@login_required(login_url='users:login')
+def my_cards_view(request):
+    user = request.user
+    stacks = Stack.objects.filter(creator=user).order_by('-created_at')
+    context = {'stacks': stacks}
+    return render(request, 'flashcard/my_cards.html', context)
 
 
 @login_required(login_url='users:login')

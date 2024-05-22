@@ -5,10 +5,8 @@ let flashcards = JSON.parse(flashcardsString);
 let knownCounter = 0;
 let unknownCounter = 0;
 let messageDisplayed = false;
-let markKnowElement = document.getElementById('numberOfKnown');
-let markUnknowElement = document.getElementById('numberOfUnknown');
-let knownCardsP = document.getElementById('knownCardsP');
-let unknownCardsP = document.getElementById('unknownCardsP');
+let knownCardsCounter = document.getElementById('knownCardsCounter');
+let unknownCardsCounter = document.getElementById('unknownCardsCounter');
 let addNewCardButton = document.getElementById('addNewCardButton');
 let unknownCardsDiv = document.getElementById('unknownCardsDiv');
 let knownCardsDiv = document.getElementById('knownCardsDiv');
@@ -25,10 +23,8 @@ function countCards(){
             unknownCounter++;
         }
     });
-    // markKnowElement.innerHTML = knownCounter;
-    // markUnknowElement.innerHTML = unknownCounter;
-    knownCardsP.innerHTML = 'Known cards (' + knownCounter + '):'; 
-    unknownCardsP.innerHTML = 'Unknown cards (' + unknownCounter + '):'; 
+    knownCardsCounter.innerHTML = 'Known cards (' + knownCounter + '):'; 
+    unknownCardsCounter.innerHTML = 'Unknown cards (' + unknownCounter + '):'; 
 }
 
 function renderCards() {
@@ -49,19 +45,8 @@ function renderCards() {
 let termInput;
 let definitionInput;
 
-function sendCardData(jsonData, apiURL, method = 'POST') {
-    var xhr = new XMLHttpRequest();
-    xhr.open(method, apiURL, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onreadystatechange = function(){
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log('Response: ', xhr.responseText);
-        }
-    };
-    xhr.send(JSON.stringify(jsonData));
-}
-
 function addNewCard() {
+    const inputDiv = document.getElementById('inputDiv');
     termInput = document.getElementById('termInput');
     definitionInput = document.getElementById('definitionInput');
     
@@ -80,18 +65,30 @@ function addNewCard() {
         countCards();
 
         messageDisplayed = false;
-        const messageElement = document.getElementById('message');
-        if (messageElement) {messageElement.remove()}
+        inputDiv.classList.remove('border-2');
+        inputDiv.classList.remove('border-solid');
+        inputDiv.classList.remove('border-red-500');
     }
     else {
         if (!messageDisplayed) {
-            const newParagraph = document.createElement('article');
-            newParagraph.setAttribute("id", "message")
-            newParagraph.textContent = 'Fill in the card ☝️';
-            addNewCardButton.parentNode.insertBefore(newParagraph, addNewCardButton);
+            inputDiv.classList.add('border-2');
+            inputDiv.classList.add('border-solid');
+            inputDiv.classList.add('border-red-500');
             messageDisplayed = true;
         }
     }
+}
+
+function sendCardData(jsonData, apiURL, method = 'POST') {
+    var xhr = new XMLHttpRequest();
+    xhr.open(method, apiURL, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function(){
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log('Response: ', xhr.responseText);
+        }
+    };
+    xhr.send(JSON.stringify(jsonData));
 }
 
 countCards();

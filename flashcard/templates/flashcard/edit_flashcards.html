@@ -10,33 +10,13 @@
         <a href="{% url "flashcard:add_new_cards" stack_id=stack_id%}" class="bg-blue-600 rounded-full m-2 py-2 px-5 text-center text-white font-medium hover:bg-blue-500">Import</a>
     </div>
 
-    <div class="bg-white dark:bg-slate-700 w-1/2 min-w-96 m-2 rounded-lg py-2 px-8 text-left font-medium text-lg"><input id="termInput" type="text" placeholder="term" class="w-full focus:outline-none dark:bg-slate-700 m-4"><hr><input id="definitionInput" type="text" placeholder="definition" class="w-full focus:outline-none dark:bg-slate-700 m-4"></div>
+    <div id="inputDiv" class="bg-white dark:bg-slate-700 w-1/2 min-w-96 m-2 rounded-lg py-2 px-8 text-left font-medium text-lg"><input id="termInput" type="text" placeholder="term" class="w-full focus:outline-none dark:bg-slate-700 m-4"><hr><input id="definitionInput" type="text" placeholder="definition" class="w-full focus:outline-none dark:bg-slate-700 m-4"></div>
     
-    <div id="unknownCardsP" class="text-red-500 text-start text-2xl font-bold m-4 ml-8 w-1/2 min-w-96" >Unknown cards (0):</div>
+    <div id="unknownCardsCounter" class="text-red-500 text-start text-2xl font-bold m-4 ml-8 w-1/2 min-w-96" >Unknown cards (0):</div>
     <div id="unknownCardsDiv" class="w-1/2 min-w-96"></div>
-    <div id="knownCardsP" class="text-green-500 text-start text-2xl font-bold m-4 ml-8 w-1/2 min-w-96" >Known cards (0):</div>
+    <div id="knownCardsCounter" class="text-green-500 text-start text-2xl font-bold m-4 ml-8 w-1/2 min-w-96" >Known cards (0):</div>
     <div id="knownCardsDiv" class="w-1/2 min-w-96"></div>
 
 </div>
 <script data-stack-id="{{ stack_id }}" data-cards="{{ json_data }}" data-url="{% url "flashcard:json_reciever" %}" src="{% static "javascript/edit_flashcards.js" %}"></script>
 {% endblock content %}
-
-{% comment %} {% extends "flashcard/base.html" %}
-{% load static %}
-{% block content %}
-{% include "flashcard/header_nav.html" %}
-<main>
-    <a href="{% url "flashcard:flashcards" stack_id=stack_id %}"><button>Review Flashcards</button></a>
-    <article><input id="termInput" type="text" placeholder="term"><hr><input id="definitionInput" type="text" placeholder="definition"></article>
-    <button id="addNewCardButton" onclick="addNewCard()">Add new card</button>
-    <a href="{% url "flashcard:add_new_cards" stack_id=stack_id%}"><button>Import cards</button></a>
-    
-    <p id="unknownCardsP" style="color: red;">Unknown cards (0):</p>
-    <div id="unknownCardsDiv"></div>
-    <p id="knownCardsP" style="color: green;">Known cards (0):</p>
-    <div id="knownCardsDiv"></div>
-
-</main>
-<script data-stack-id="{{ stack_id }}" data-cards="{{ json_data }}" data-url="{% url "flashcard:json_reciever" %}" src="{% static "javascript/edit_flashcards.js" %}"></script>
-{% include "flashcard/footer.html" %}
-{% endblock content %} {% endcomment %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
 
 
 def login_user(request):
@@ -15,7 +16,7 @@ def login_user(request):
         
         else:
             fail_message = "Wrong username or password."
-            messages.success(request, fail_message)
+            messages.error(request, fail_message)
             return redirect("users:login")
 
     else:
@@ -31,3 +32,15 @@ def logout_user(request):
     return redirect("flashcard:stack_list_view")
 
 
+def register_user(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Registration succesful!')
+            return redirect("users:login")
+    else:
+        form = UserCreationForm()
+
+    context = {'form':form}
+    return render(request, 'users/register_user.html', context)

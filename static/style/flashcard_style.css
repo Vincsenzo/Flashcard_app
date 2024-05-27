@@ -3,7 +3,8 @@
     position: relative;
     font-size: 20px;
     padding: 20px;
-    height: 30vh;
+    min-height: 30vh;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -67,6 +68,9 @@
 @media only screen and (width<=720px) {
   main > p > button {
     height: 100px;
+  }
+  main > article {
+    min-height: 40vh;
   }
 }
 

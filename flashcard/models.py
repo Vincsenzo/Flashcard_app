@@ -13,8 +13,8 @@ class Stack(models.Model):
 
 class Flashcard(models.Model):
     stack = models.ForeignKey(Stack, on_delete=models.CASCADE)
-    term = models.CharField(max_length=200)
-    definition = models.CharField(max_length=200)
+    term = models.CharField(max_length=400)
+    definition = models.CharField(max_length=400)
 
     def __str__(self):
         return f'{self.id} | {self.term} - {self.definition}'

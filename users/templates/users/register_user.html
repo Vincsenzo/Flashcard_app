@@ -1,0 +1,17 @@
+{% extends "flashcard/base.html" %}
+{% load static %}
+{% block content %}
+
+<div>
+    {% if form.errors %}
+    <article style="background-color: brown; color: white;">There was an error with your registration</article>
+    {% endif %}
+    <h1>Register</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+</div> 
+
+{% endblock content %}

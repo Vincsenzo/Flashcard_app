@@ -3,7 +3,7 @@
     position: relative;
     font-size: 20px;
     padding: 20px;
-    min-height: 30vh;
+    min-height: 35vh;
     height: auto;
     display: flex;
     justify-content: center;
@@ -69,8 +69,8 @@
   main > p > button {
     height: 100px;
   }
-  main > article {
-    min-height: 40vh;
+  #article {
+    min-height: 45vh;
   }
 }
 

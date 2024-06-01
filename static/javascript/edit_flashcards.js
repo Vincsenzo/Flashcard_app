@@ -27,18 +27,28 @@ function countCards(){
     unknownCardsCounter.innerHTML = 'Unknown cards (' + unknownCounter + '):'; 
 }
 
+function mappingCards(cards) {
+    render = cards.map(card =>`
+        <div class="bg-white dark:bg-slate-700 mt-2 mb-4 rounded-lg py-5 px-8 text-left font-medium"> 
+            <div class="flex flex-row">
+                <div class="w-11/12 text-start">${card.term}</div>
+                <button class="text-gray-500 hover:text-red-500 text-xl w-1/12 text-end"><i class="fa fa-trash-o"></i></button>
+            </div>
+            <hr class="my-3">
+            ${card.definition} 
+        </div>
+    `).join('');
+    return render;
+}
+
 function renderCards() {
     const knownCards = flashcards.filter(card => {return card.known});
     const unknownCards = flashcards.filter(card => {return !card.known});
     unknownCardsDiv.innerHTML = '';
     knownCardsDiv.innerHTML = '';
 
-    unknownCardsDiv.innerHTML = unknownCards.map(card =>`
-        <div class="bg-white dark:bg-slate-700 mt-2 mb-4 rounded-lg py-5 px-8 text-left font-medium"> ${card.term} <br> <br><hr> <br> ${card.definition} </div>
-    `).join('');
-    knownCardsDiv.innerHTML = knownCards.map(card =>`
-        <div class="bg-white dark:bg-slate-700 mt-2 mb-4 rounded-lg py-5 px-8 text-left font-medium"> ${card.term} <br> <br><hr> <br> ${card.definition} </div>
-    `).join('');
+    unknownCardsDiv.innerHTML = mappingCards(unknownCards);
+    knownCardsDiv.innerHTML = mappingCards(knownCards);
 }
 
 // Add new cards:

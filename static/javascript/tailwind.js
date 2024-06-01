@@ -21405,7 +21405,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
     return i && i.__esModule ? i : { default: i };
   }
   console.warn(
-    "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+    "tailwind is saved to statics"
   );
   var Hn = "tailwind",
     tu = "text/tailwindcss",

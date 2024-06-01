@@ -82,8 +82,9 @@ def json_reciever(request):
 
     if request.method == 'POST':
         stack_instance = get_object_or_404(Stack, pk=data['stack'])
-        Flashcard.objects.create(term=data['term'], definition=data['definition'], stack=stack_instance)
-        return JsonResponse({'message': 'Data received successfully'}, status=200)
+        new_card = Flashcard.objects.create(term=data['term'], definition=data['definition'], stack=stack_instance)
+        new_card.save()
+        return JsonResponse({'message': 'Data received successfully', 'newCardId': new_card.id}, status=200)
     
     elif request.method == 'PUT':
         stack_id = data.get('stack_id')
@@ -101,6 +102,12 @@ def json_reciever(request):
             UserFlaschcardRelationship.change_known_or_create(user=user, card_instance=card_instance, true_or_false=known)
 
         return JsonResponse({'message': 'Data received successfully'}, status=200)
+    
+    elif request.method == 'DELETE':
+        card_id = data.get('card_id')
+        card_to_delete = get_object_or_404(Flashcard, pk=card_id)
+        card_to_delete.delete()
+        return JsonResponse({'message': 'Card deleted successfully'}, status=200)
 
     else:
         return JsonResponse({'message': 'Invalid request method'}, status=400)

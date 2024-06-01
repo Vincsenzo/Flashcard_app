@@ -32,10 +32,10 @@ function mappingCards(cards) {
         <div class="bg-white dark:bg-slate-700 mt-2 mb-4 rounded-lg py-5 px-8 text-left font-medium"> 
             <div class="flex flex-row">
                 <div class="w-11/12 text-start">${card.term}</div>
-                <button class="text-gray-500 hover:text-red-500 text-xl w-1/12 text-end"><i class="fa fa-trash-o"></i></button>
+                <button onclick="deleteCard(${card.id})" class="text-gray-500 hover:text-red-500 text-xl w-1/12 text-end"><i class="fa fa-trash-o"></i></button>
             </div>
             <hr class="my-3">
-            ${card.definition} 
+            ${card.definition}
         </div>
     `).join('');
     return render;
@@ -69,10 +69,13 @@ function addNewCard() {
         };
         termInput.value = "";
         definitionInput.value = "";
-        sendCardData(newCardJsonData, apiUrl);
-        flashcards.unshift(newCardJsonData);
-        renderCards();
-        countCards();
+        sendCardData(newCardJsonData, apiUrl, 'POST', function(response){
+            console.log('Response in callback: ', response);
+            newCardJsonData.id = response.newCardId;
+            flashcards.unshift(newCardJsonData);
+            renderCards();
+            countCards();
+        });
 
         messageDisplayed = false;
         inputDiv.classList.remove('border-2');
@@ -89,16 +92,32 @@ function addNewCard() {
     }
 }
 
-function sendCardData(jsonData, apiURL, method = 'POST') {
+// Delete card:
+function deleteCard(cardId){
+    let deleteCardJson = {'card_id': cardId};
+    sendCardData(deleteCardJson, apiUrl, 'DELETE', function() {
+        without_deleted = flashcards.filter(card => card.id !== cardId);
+        flashcards = without_deleted;
+        renderCards();
+        countCards();
+    });
+
+}
+
+function sendCardData(jsonData, apiURL, method = 'POST', callback) {
     var xhr = new XMLHttpRequest();
     xhr.open(method, apiURL, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function(){
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log('Response: ', xhr.responseText);
+            if (callback) {
+                callback(JSON.parse(xhr.responseText));
+            }
         }
     };
     xhr.send(JSON.stringify(jsonData));
+    return xhr.responseText;
 }
 
 countCards();

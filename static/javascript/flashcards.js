@@ -56,7 +56,7 @@ function switchToNext(){
     }
 }
 
-function switchToPrevious(){ // TODO: make thos work
+function switchToPrevious(){ // TODO: make this work
     flipped = false;
     if (index != 0){
         index -= 1;

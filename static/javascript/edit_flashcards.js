@@ -10,9 +10,10 @@ let unknownCardsCounter = document.getElementById('unknownCardsCounter');
 let addNewCardButton = document.getElementById('addNewCardButton');
 let unknownCardsDiv = document.getElementById('unknownCardsDiv');
 let knownCardsDiv = document.getElementById('knownCardsDiv');
+let editButton = document.getElementById('editButton');
 const mainElement = document.getElementsByTagName('main')[0];
 
-// Base functions:
+
 function countCards(){
     knownCounter = 0;
     unknownCounter = 0;
@@ -27,28 +28,42 @@ function countCards(){
     unknownCardsCounter.innerHTML = 'Unknown cards (' + unknownCounter + '):'; 
 }
 
-function mappingCards(cards) {
-    render = cards.map(card =>`
-        <div class="bg-white dark:bg-slate-700 mt-2 mb-4 rounded-lg py-5 px-8 text-left font-medium"> 
-            <div class="flex flex-row">
-                <div class="w-11/12 text-start">${card.term}</div>
-                <button onclick="deleteCard(${card.id})" class="text-gray-500 hover:text-red-500 text-xl w-1/12 text-end"><i class="fa fa-trash-o"></i></button>
+function mappingCards(cards, edit = false) {
+    if (edit) {
+        render = cards.map(card =>`
+            <div class="bg-white dark:bg-slate-700 mt-2 mb-4 rounded-lg py-5 px-8 text-left font-medium"> 
+                <div class="flex flex-row">
+                    <div class="w-11/12 text-start">${card.term}</div>
+                    <button onclick="deleteCard(${card.id})" class="text-gray-500 hover:text-red-500 text-xl w-1/12 text-end"><i class="fa fa-trash-o"></i></button>
+                </div>
+                <hr class="my-3">
+                ${card.definition}
             </div>
-            <hr class="my-3">
-            ${card.definition}
-        </div>
-    `).join('');
+        `).join('');
+        console.log('in edit mode');
+    } else {
+        render = cards.map(card =>`
+            <div class="bg-white dark:bg-slate-700 mt-2 mb-4 rounded-lg py-5 px-8 text-left font-medium"> 
+                <div class="flex flex-row">
+                    <div class="w-11/12 text-start">${card.term}</div>
+                </div>
+                <hr class="my-3">
+                ${card.definition}
+            </div>
+        `).join('');
+        console.log('NOT in edit mode');
+    }
     return render;
 }
 
-function renderCards() {
+function renderCards(edit = false) {
     const knownCards = flashcards.filter(card => {return card.known});
     const unknownCards = flashcards.filter(card => {return !card.known});
     unknownCardsDiv.innerHTML = '';
     knownCardsDiv.innerHTML = '';
 
-    unknownCardsDiv.innerHTML = mappingCards(unknownCards);
-    knownCardsDiv.innerHTML = mappingCards(knownCards);
+    unknownCardsDiv.innerHTML = mappingCards(unknownCards, edit);
+    knownCardsDiv.innerHTML = mappingCards(knownCards, edit);
 }
 
 // Add new cards:
@@ -73,7 +88,11 @@ function addNewCard() {
             console.log('Response in callback: ', response);
             newCardJsonData.id = response.newCardId;
             flashcards.unshift(newCardJsonData);
-            renderCards();
+            if (edit) {
+                renderCards(edit = true);
+            } else {
+                renderCards();
+            }
             countCards();
         });
 
@@ -98,10 +117,30 @@ function deleteCard(cardId){
     sendCardData(deleteCardJson, apiUrl, 'DELETE', function() {
         without_deleted = flashcards.filter(card => card.id !== cardId);
         flashcards = without_deleted;
-        renderCards();
+        if (edit) {
+            renderCards(edit = true);
+        } else {
+            renderCards();
+        }
         countCards();
     });
+}
 
+// Edit button:
+let edit = false;
+
+function editTriger(){
+    if (!edit) {
+        // Switches it in edit mode
+        edit = true;
+        editButton.innerHTML = 'Done';
+        renderCards(true);
+    } else {
+        // Switches back to non-edit mode
+        edit = false
+        editButton.innerHTML = 'Edit';
+        renderCards();
+    }
 }
 
 function sendCardData(jsonData, apiURL, method = 'POST', callback) {

@@ -8,7 +8,7 @@
         <a href="{% url "flashcard:flashcards" stack_id=stack_id %}" class="bg-orange-600 rounded-lg m-2 py-2 px-5 text-center text-white font-medium hover:bg-orange-500">Review</a>
         <a id="addNewCardButton" onclick="addNewCard()" class="bg-blue-600 rounded-full m-2 py-2 px-5 text-center text-white font-medium hover:bg-blue-500 cursor-pointer">+ New Card</a>
         <a href="{% url "flashcard:add_new_cards" stack_id=stack_id%}" class="bg-blue-600 rounded-full m-2 py-2 px-5 text-center text-white font-medium hover:bg-blue-500">Import</a>
-        <a href="#" class="bg-blue-600 rounded-full m-2 py-2 px-5 text-center text-white font-medium hover:bg-blue-500">Edit</a>
+        <a id="editButton" onclick="editTriger()" class="bg-blue-600 rounded-full m-2 py-2 px-5 text-center text-white font-medium hover:bg-blue-500 cursor-pointer">Edit</a>
     </div>
 
     <div id="inputDiv" class="bg-white dark:bg-slate-700 w-1/2 min-w-96 m-2 rounded-lg py-2 px-8 text-left font-medium text-lg"><input id="termInput" type="text" placeholder="term" class="w-full focus:outline-none dark:bg-slate-700 m-4"><hr><input id="definitionInput" type="text" placeholder="definition" class="w-full focus:outline-none dark:bg-slate-700 m-4"></div>

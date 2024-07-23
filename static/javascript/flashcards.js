@@ -8,6 +8,9 @@ let flipped = false;
 let knownCounter = 0;
 let unknownCounter = 0;
 let articleElement = document.getElementById('article');
+let textElement = document.getElementById('text');
+let indexSpan = document.getElementById('indexSpan');
+let totalSpan = document.getElementById('totalSpan');
 let markKnowElement = document.getElementById('numberOfKnown');
 let markUnknowElement = document.getElementById('numberOfUnknown');
 let knowButton = document.getElementById('knowButton');
@@ -16,7 +19,10 @@ let flipButton = document.getElementById('flipButton');
 let previousButton = document.getElementById('previousButton');
 let resetButton = document.getElementById('resetButton');
 
-articleElement.innerHTML = unknownCards[index] ? unknownCards[index].term : null;
+let total = Object.keys(flashcards).length;
+totalSpan.innerHTML = total;
+
+textElement.innerHTML = unknownCards[index] ? unknownCards[index].term : null;
 if (!unknownCards[index] || unknownCards[index].term !== flashcards[index].term) { // hack so it is always diplaying the proper card
     switchToNext();
 }
@@ -34,6 +40,7 @@ function countCards(){
     });
     markKnowElement.innerHTML = knownCounter;
     markUnknowElement.innerHTML = unknownCounter;
+    indexSpan.innerHTML = index + 1; // +1 so it shows the correct card at the moment
 }
 
 function switchToNext(){
@@ -49,10 +56,10 @@ function switchToNext(){
     } while (index !== initialIndex && flashcards[index].known === true);
 
     if (index === initialIndex && flashcards[index].known === true){
-        articleElement.innerHTML = "You know all the flashcards! 🎉"
+        textElement.innerHTML = "You know all the flashcards! 🎉"
     } else {
         let next_word = flashcards[index].term;
-        articleElement.innerHTML = next_word;
+        textElement.innerHTML = next_word;
     }
 }
 
@@ -60,21 +67,22 @@ function switchToPrevious(){ // TODO: make this work
     flipped = false;
     if (index != 0){
         index -= 1;
-        articleElement.innerHTML = flashcards[index].term;
+        textElement.innerHTML = flashcards[index].term;
     } else {
         index = flashcards.length - 1;
-        articleElement.innerHTML = flashcards[index].term;
+        textElement.innerHTML = flashcards[index].term;
     }
+    countCards();
 }
 
 function flipCard(){
     if (flipped === false){
         let value = flashcards[index].definition;
-        articleElement.innerHTML = value;
+        textElement.innerHTML = value;
         flipped = true;
     } else {
         let key = flashcards[index].term;
-        articleElement.innerHTML = key;
+        textElement.innerHTML = key;
         flipped = false;
     }
 }
@@ -83,16 +91,16 @@ function changeToKnow(){
     flashcards[index].known = true;
     let jsonData = {'card_id': flashcards[index].id, 'known': true};
     sendCardData(jsonData, apiUrl, 'PUT');
-    countCards();
     switchToNext();
+    countCards();
 }
 
 function changeToDontKnow(){
     flashcards[index].known = false;
     let jsonData = {'card_id': flashcards[index].id, 'known': false};
     sendCardData(jsonData, apiUrl, 'PUT');
-    countCards();
     switchToNext();
+    countCards();
 }
 
 function resetCards(){
@@ -101,9 +109,9 @@ function resetCards(){
     });
     let jsonData = {'stack_id': stackId};
     sendCardData(jsonData, apiUrl, 'PUT');
-    countCards();
     index = 0;
-    articleElement.innerHTML = flashcards[index].term;
+    countCards();
+    textElement.innerHTML = flashcards[index].term;
 }
 
 // Animation functions:

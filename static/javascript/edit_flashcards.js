@@ -33,14 +33,13 @@ function mappingCards(cards, edit = false) {
         render = cards.map(card =>`
             <div class="bg-white dark:bg-slate-700 mt-2 mb-4 rounded-lg py-5 px-8 text-left font-medium"> 
                 <div class="flex flex-row">
-                    <div class="w-11/12 text-start">${card.term}</div>
+                    <div contenteditable="true" class="w-11/12 text-start">${card.term}</div>
                     <button onclick="deleteCard(${card.id})" class="text-gray-500 hover:text-red-500 text-xl w-1/12 text-end"><i class="fa fa-trash-o"></i></button>
                 </div>
                 <hr class="my-3">
-                ${card.definition}
+                <div contenteditable="true" class="w-11/12 text-start">${card.definition}</div>
             </div>
         `).join('');
-        console.log('in edit mode');
     } else {
         render = cards.map(card =>`
             <div class="bg-white dark:bg-slate-700 mt-2 mb-4 rounded-lg py-5 px-8 text-left font-medium"> 
@@ -48,10 +47,9 @@ function mappingCards(cards, edit = false) {
                     <div class="w-11/12 text-start">${card.term}</div>
                 </div>
                 <hr class="my-3">
-                ${card.definition}
+                <div class="w-11/12 text-start">${card.definition}</div>
             </div>
         `).join('');
-        console.log('NOT in edit mode');
     }
     return render;
 }
@@ -85,7 +83,6 @@ function addNewCard() {
         termInput.value = "";
         definitionInput.value = "";
         sendCardData(newCardJsonData, apiUrl, 'POST', function(response){
-            console.log('Response in callback: ', response);
             newCardJsonData.id = response.newCardId;
             flashcards.unshift(newCardJsonData);
             if (edit) {

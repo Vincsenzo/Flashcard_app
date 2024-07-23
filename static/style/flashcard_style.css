@@ -1,4 +1,4 @@
-#article {
+/* #article {
     transition: opacity 0.2s ease;
     position: relative;
     font-size: 20px;
@@ -8,7 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
+} */
 #article.fadeout-right {
     transition: transform 0.5s ease, opacity 0.5s ease;
     transform: translateX(50px);
@@ -65,14 +65,14 @@
         background-color: rgb(62, 47, 29);
     }
 }
-@media only screen and (width<=720px) {
+/* @media only screen and (width<=720px) {
   main > p > button {
     height: 100px;
   }
   #article {
     min-height: 45vh;
   }
-}
+} */
 
 /* On the edit page */
 

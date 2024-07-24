@@ -48,6 +48,7 @@ function switchToNext(){
     flipped = false;
     let initialIndex = index;
     indexHistory.push(initialIndex);
+    console.log(indexHistory);
 
     do {
         if (index < flashcards.length - 1){
@@ -67,7 +68,14 @@ function switchToNext(){
 
 function switchToPrevious(){
     flipped = false;
-    let previousIndex = indexHistory.pop();
+    let previousIndex = 0;
+    
+    if (indexHistory.length !== 0) {
+        previousIndex = indexHistory.pop();
+    } else {
+        previousIndex = 0;
+    }
+    console.log(indexHistory);
 
     if (index != 0){
         index = previousIndex;

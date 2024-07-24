@@ -4,6 +4,7 @@ let stackId = document.currentScript.getAttribute('data-stack-id');
 let flashcards = JSON.parse(flashcardsString);
 let unknownCards = flashcards.filter(item => !item.known);
 let index = 0;
+let indexHistory = [];
 let flipped = false;
 let knownCounter = 0;
 let unknownCounter = 0;
@@ -46,6 +47,7 @@ function countCards(){
 function switchToNext(){
     flipped = false;
     let initialIndex = index;
+    indexHistory.push(initialIndex);
 
     do {
         if (index < flashcards.length - 1){
@@ -63,10 +65,12 @@ function switchToNext(){
     }
 }
 
-function switchToPrevious(){ // TODO: make this work
+function switchToPrevious(){
     flipped = false;
+    let previousIndex = indexHistory.pop();
+
     if (index != 0){
-        index -= 1;
+        index = previousIndex;
         textElement.innerHTML = flashcards[index].term;
     } else {
         index = flashcards.length - 1;

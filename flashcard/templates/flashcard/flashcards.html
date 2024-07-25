@@ -21,7 +21,7 @@
         <div class="flex flex-row m-2">
             <button class="mx-1 bg-slate-300 dark:bg-slate-400 dark:hover:bg-slate-300 py-2 px-5 text-center text-slate-900 font-medium hover:bg-slate-400 rounded-full" id="previousButton">⏪ Previous</button>
             <button class="mx-1 bg-slate-300 dark:bg-slate-400 dark:hover:bg-slate-300 py-2 px-5 text-center text-slate-900 font-medium hover:bg-slate-400 rounded-full" id="resetButton">🔁 Reset</button>
-            <button class="mx-1 bg-slate-300 dark:bg-slate-400 dark:hover:bg-slate-300 py-2 px-5 text-center text-slate-900 font-medium hover:bg-slate-400 rounded-full" id="">⚙️</button>
+            <a href="{% url "flashcard:edit_flashcards" stack_id=stack_id %}" class="mx-1 bg-slate-300 dark:bg-slate-400 dark:hover:bg-slate-300 py-2 px-5 text-center text-slate-900 font-medium hover:bg-slate-400 rounded-full">Exit</a>
         </div>
         <details class="flex flex-row m-2 px-2 text-sm max-sm:hidden text-slate-500">
             <summary class="">Keyboard shortcuts</summary>

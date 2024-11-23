@@ -19,7 +19,7 @@ SECRET_KEY = env('SECRET_KEY')
 # DEBUG = env('DEBUG')
 DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['79.172.212.79']
 
 # CSRF_TRUSTED_ORIGINS = ['']
 
@@ -71,17 +71,14 @@ WSGI_APPLICATION = 'Flashcards.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-import dj_database_url
+# import dj_database_url
 
 DATABASES = {
-    'dev': {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    'production': dj_database_url.parse(env('DATABASE_URL'))
+    }
 }
-
-DATABASES['default'] = DATABASES['dev' if DEBUG else 'production']
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

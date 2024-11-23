@@ -13,8 +13,10 @@
         {% endif %}
     </div>
 
+    {% if user == stack.creator %}
     <div id="inputDiv" class="bg-white dark:bg-slate-700 w-1/2 min-w-96 m-2 rounded-lg py-2 px-8 text-left font-medium text-lg"><input id="termInput" type="text" placeholder="term" class="w-full focus:outline-none dark:bg-slate-700 m-4"><hr><input id="definitionInput" type="text" placeholder="definition" class="w-full focus:outline-none dark:bg-slate-700 m-4"></div>
-    
+    {% endif %}
+
     <div id="unknownCardsCounter" class="text-red-500 text-start text-2xl font-bold m-4 ml-8 w-1/2 min-w-96" >Unknown cards (0):</div>
     <div id="unknownCardsDiv" class="w-1/2 min-w-96"></div>
     <div id="knownCardsCounter" class="text-green-500 text-start text-2xl font-bold m-4 ml-8 w-1/2 min-w-96" >Known cards (0):</div>

@@ -1,9 +1,10 @@
 import json
+from random import shuffle
 
 from .models import Flashcard, UserFlaschcardRelationship
 
 
-def falshcard_serializer(stack_id, request):
+def falshcard_serializer(stack_id, request, random_order = False):
     user = request.user.id
     queryset = Flashcard.objects.filter(stack=stack_id).order_by('-id')
     queryset2 = UserFlaschcardRelationship.objects.filter(flashcard_id__stack=stack_id, user_id=user).order_by('-flashcard_id__id')
@@ -20,6 +21,9 @@ def falshcard_serializer(stack_id, request):
             'known': known,
             'id': card['id'],
         })
+
+    if random_order:
+        shuffle(transformed_flashcards)
 
     json_data = json.dumps(transformed_flashcards)
     return json_data

@@ -11,7 +11,7 @@ from .serializers import falshcard_serializer
 
 @login_required(login_url='users:login')
 def flashcards(request, stack_id):
-    json_data = falshcard_serializer(stack_id, request)
+    json_data = falshcard_serializer(stack_id, request, random_order=True)
     context = {'json_data': json_data, 'stack_id': stack_id}
     return render(request, 'flashcard/flashcards.html', context)
 

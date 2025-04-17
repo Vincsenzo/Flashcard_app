@@ -61,7 +61,7 @@ def add_new_cards(request, stack_id):
             data = form.data['new_cards']
             stack_instance = Stack.objects.get(pk=stack_id)
 
-            for d in data.split(";"):
+            for d in data.split("|"):
                 try:
                     term, definition = map(str.strip, d.split("&"))
                     Flashcard.objects.create(term=term, definition=definition, stack=stack_instance)

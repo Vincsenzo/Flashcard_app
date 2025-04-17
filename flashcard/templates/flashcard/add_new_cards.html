@@ -3,10 +3,10 @@
 
 <div class="min-h-screen text-black dark:text-white flex flex-col place-items-center" >
     <form method="post" class="flex flex-col bg-white dark:bg-slate-700 w-1/2 min-w-96 m-4 p-4 rounded-lg">
-        <div class="mb-3 text-base font-bold text-lg">Separate term and definition with "&amp" (ampersand), separate new flashcards with ";" (semicolon)</div>
+        <div class="mb-3 text-base font-bold text-lg">Separate term and definition with "|" (vertical bar), separate new flashcards with ";" (semicolon)</div>
         {% csrf_token %}
         {% for field in form %}
-            <textarea rows="5" id="{{ field.id_for_label}}" type="text" name="{{ field.html_name }}" maxlength="{{ field.field.max_length }}" class="bg-white dark:bg-slate-700 border-2 border-solid border-gray-300 rounded-lg py-1 px-2 focus:outline-none text-lg" placeholder="hello &amp hola; good night &amp buenas noches; dog &amp perro"></textarea>
+            <textarea rows="5" id="{{ field.id_for_label}}" type="text" name="{{ field.html_name }}" maxlength="{{ field.field.max_length }}" class="bg-white dark:bg-slate-700 border-2 border-solid border-gray-300 rounded-lg py-1 px-2 focus:outline-none text-lg" placeholder="hello &amp hola| good night &amp buenas noches| dog &amp perro"></textarea>
         {% endfor %}
         {% if messages %}
             {% for message in messages %}

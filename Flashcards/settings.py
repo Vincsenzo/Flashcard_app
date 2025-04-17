@@ -19,7 +19,7 @@ SECRET_KEY = env('SECRET_KEY')
 # DEBUG = env('DEBUG')
 DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['flashcards.vincsenzo.hu']
+ALLOWED_HOSTS = ['flashcards.vincsenzo.hu', 'localhost']
 
 # CSRF_TRUSTED_ORIGINS = ['']
 
